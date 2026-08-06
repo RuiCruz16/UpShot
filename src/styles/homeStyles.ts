@@ -5,10 +5,12 @@ export const styles = StyleSheet.create({
     flex: 1, 
     backgroundColor: '#0F172A', 
     padding: 24, 
+    // Espaço extra em baixo para o conteúdo não ficar colado à barra flutuante
+    paddingBottom: 120,
     justifyContent: 'center', 
   },
   title: { 
-    fontSize: 32, 
+    fontSize: 28, 
     fontWeight: 'bold', 
     color: '#FDE047', 
     textAlign: 'center', 

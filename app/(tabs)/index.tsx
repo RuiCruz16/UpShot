@@ -34,7 +34,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sleep Calculator 🌙</Text>
+      <Text style={styles.title}>Calculadora do Sono 🌙</Text>
       
       <Text style={styles.infoText}>
         Calculamos a tua hora de acordar assumindo que demoras <Text style={styles.highlight}>15 minutos</Text> a adormecer. 
@@ -92,7 +92,7 @@ export default function App() {
                   
                   {item.isSuggested && (
                     <View style={styles.badge}>
-                      <Text style={styles.badgeText}>SUGERIDO</Text>
+                      <Text style={styles.badgeText}>IDEAL</Text>
                     </View>
                   )}
                 </View>
