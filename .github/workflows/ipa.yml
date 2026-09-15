@@ -5,10 +5,15 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Check toolchain
+        run: |
+          xcodebuild -version
+          swift --version
 
       - name: Set up Node
         uses: actions/setup-node@v4
