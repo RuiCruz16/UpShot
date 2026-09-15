@@ -28,15 +28,26 @@ jobs:
         run: cd ios && pod install
 
       - name: Build unsigned .app
-        run: >-
-          xcodebuild
-          -workspace ios/UpShot.xcworkspace
-          -scheme UpShot
-          -configuration Release
-          -sdk iphoneos
-          -derivedDataPath build
-          CODE_SIGNING_ALLOWED=NO
-          CODE_SIGNING_REQUIRED=NO
+        run: |
+          set +e
+          xcodebuild \
+            -workspace ios/UpShot.xcworkspace \
+            -scheme UpShot \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            -quiet > build.log 2>&1
+          status=$?
+          if [ $status -ne 0 ]; then
+            echo "=== ERROR LINES ==="
+            grep -E "error:" build.log | head -50
+            echo "=== LAST 80 LINES ==="
+            tail -80 build.log
+          fi
+          exit $status
 
       - name: Package unsigned .ipa
         run: |
