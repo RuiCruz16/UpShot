@@ -1,13 +1,18 @@
+import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import { FlatList, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from '../../src/styles/homeStyles';
+import * as alarmEngine from '../../src/engine/alarmEngine';
+import { addAlarm } from '../../src/utils/alarmStorage';
 import { getWakeUpTimes, WakeUpTime } from '../../src/utils/sleepCalculator';
 
 export default function App() {
   const [wakeUpTimes, setWakeUpTimes] = useState<WakeUpTime[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  
+  // Horas sugeridas para as quais já foi criado um alarme (key: cycles)
+  const [addedCycles, setAddedCycles] = useState<string[]>([]);
+
   // Estado que guarda a hora que estás a escolher no slider
   const [selectedTime, setSelectedTime] = useState(new Date());
 
@@ -15,6 +20,7 @@ export default function App() {
   const handleCalculateNow = () => {
     const times = getWakeUpTimes();
     setWakeUpTimes(times);
+    setAddedCycles([]);
     setModalVisible(true);
   };
 
@@ -22,6 +28,7 @@ export default function App() {
   const handleCalculateCustom = () => {
     const times = getWakeUpTimes(selectedTime);
     setWakeUpTimes(times);
+    setAddedCycles([]);
     setModalVisible(true);
   };
 
@@ -30,6 +37,13 @@ export default function App() {
     if (date) {
       setSelectedTime(date);
     }
+  };
+
+  const handleAddAlarm = async (item: WakeUpTime) => {
+    await alarmEngine.requestNotificationPermissions();
+    await addAlarm(item.hour, item.minute);
+    await alarmEngine.refresh();
+    setAddedCycles((current) => [...current, item.cycles.toString()]);
   };
 
   return (
@@ -79,22 +93,37 @@ export default function App() {
             <FlatList
               data={wakeUpTimes}
               keyExtractor={(item) => item.cycles.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.card}>
-                  <View style={styles.timeInfo}>
-                    <Text style={styles.timeText}>{item.time}</Text>
-                    <Text style={styles.detailText}>
-                      {item.cycles} Ciclos • {item.hoursOfSleep}h sono
-                    </Text>
-                  </View>
-                  
-                  {item.isSuggested && (
-                    <View style={styles.badge}>
-                      <Text style={styles.badgeText}>IDEAL</Text>
+              renderItem={({ item }) => {
+                const added = addedCycles.includes(item.cycles.toString());
+                return (
+                  <View style={styles.card}>
+                    <View style={styles.timeInfo}>
+                      <Text style={styles.timeText}>{item.time}</Text>
+                      <Text style={styles.detailText}>
+                        {item.cycles} Ciclos • {item.hoursOfSleep}h sono
+                      </Text>
                     </View>
-                  )}
-                </View>
-              )}
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                      {item.isSuggested && (
+                        <View style={styles.badge}>
+                          <Text style={styles.badgeText}>IDEAL</Text>
+                        </View>
+                      )}
+                      <TouchableOpacity
+                        onPress={() => handleAddAlarm(item)}
+                        disabled={added}
+                        style={[styles.addAlarmButton, added && { opacity: 0.5 }]}>
+                        <Ionicons
+                          name={added ? 'checkmark' : 'alarm-outline'}
+                          size={24}
+                          color={added ? '#4ADE80' : '#FDE047'}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                );
+              }}
             />
 
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>

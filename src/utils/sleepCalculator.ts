@@ -1,6 +1,8 @@
 export interface WakeUpTime {
   cycles: number;
   time: string;
+  hour: number;
+  minute: number;
   hoursOfSleep: number;
   isSuggested: boolean;
 }
@@ -23,6 +25,8 @@ export function getWakeUpTimes(baseTime?: Date): WakeUpTime[] {
     times.push({
       cycles: cycles,
       time: wakeTime.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
+      hour: wakeTime.getHours(),
+      minute: wakeTime.getMinutes(),
       hoursOfSleep: (cycles * 1.5),
       // Vamos sugerir os 5 e 6 ciclos (7.5h e 9h de sono)
       isSuggested: cycles === 5 || cycles === 6 

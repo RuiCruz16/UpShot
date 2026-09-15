@@ -103,5 +103,15 @@ export const styles = StyleSheet.create({
     paddingVertical: 6, 
     borderRadius: 8 
   },
-  badgeText: { color: '#0F172A', fontSize: 12, fontWeight: 'bold' }
+  badgeText: { color: '#0F172A', fontSize: 12, fontWeight: 'bold' },
+  addAlarmButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#1E293B',
+    borderWidth: 1,
+    borderColor: '#334155',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
