@@ -9,13 +9,6 @@ export const styles = StyleSheet.create({
     paddingBottom: 120,
     justifyContent: 'center', 
   },
-  title: { 
-    fontSize: 28, 
-    fontWeight: 'bold', 
-    color: '#FDE047', 
-    textAlign: 'center', 
-    marginBottom: 20 
-  },
   // 1. Texto maior (fontSize 18) e mais espaçado
   infoText: {
     color: '#94A3B8', 

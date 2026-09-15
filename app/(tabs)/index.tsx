@@ -34,8 +34,6 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Calculadora do Sono 🌙</Text>
-      
       <Text style={styles.infoText}>
         Calculamos a tua hora de acordar assumindo que demoras <Text style={styles.highlight}>15 minutos</Text> a adormecer. 
         O ideal é acordar no fim de um ciclo de <Text style={styles.highlight}>90 minutos</Text> (sugerimos <Text style={styles.highlight}>5 a 6 ciclos</Text>).
@@ -46,6 +44,11 @@ export default function App() {
         {/* Botão de Dormir Agora */}
         <TouchableOpacity style={[styles.mainButton, styles.mainButtonHighlight]} onPress={handleCalculateNow}>
           <Text style={styles.mainButtonTextHighlight}>Dormir Agora</Text>
+        </TouchableOpacity>
+
+        {/* Botão para calcular baseado na hora do slider */}
+        <TouchableOpacity style={styles.mainButton} onPress={handleCalculateCustom}>
+          <Text style={styles.mainButtonText}>Dormir às...</Text>
         </TouchableOpacity>
 
         {/* 2. Slider embutido no ecrã (Sempre visível) */}
@@ -59,11 +62,6 @@ export default function App() {
             onChange={onTimeChange}
           />
         </View>
-
-        {/* Botão para calcular baseado na hora do slider */}
-        <TouchableOpacity style={styles.mainButton} onPress={handleCalculateCustom}>
-          <Text style={styles.mainButtonText}>Dormir às...</Text>
-        </TouchableOpacity>
 
       </View>
 
