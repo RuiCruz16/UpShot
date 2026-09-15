@@ -1,4 +1,4 @@
-import { createAudioPlayer, type AudioPlayer, setAudioModeAsync } from 'expo-audio';
+import { createAudioPlayer, setAudioModeAsync, type AudioPlayer } from 'expo-audio';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
@@ -197,8 +197,8 @@ async function scheduleNotifications(alarms: Alarm[]) {
   for (const alarm of alarms.filter((a) => a.enabled)) {
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: 'UpShot – Alarme',
-        body: 'Levanta-te! Confirma a fotografar o teu objeto para desligar o som.',
+        title: 'UpShot - Alarme',
+        body: 'Levanta-te! Para desligares o som, deves fotografar o objeto que escolheste anteriormente.',
         data: { type: NOTIFICATION_DATA_TYPE, alarmId: alarm.id },
       },
       trigger: {
