@@ -1,50 +1,39 @@
-# Welcome to your Expo app 👋
+# UpShot
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Wake-up alarm that makes you **actually get out of bed** - the only way to silence it is to photograph the object you chose beforehand.
 
-## Get started
+## Features
 
-1. Install dependencies
+### Sleep calculator
+Calculates the best time to wake up based on 90-minute sleep cycles (with the 15 minutes it usually takes to fall asleep). Works two ways:
 
-   ```bash
-   npm install
-   ```
+- **Sleep now** - suggested wake-up times starting from the current moment.
+- **Sleep at...** - pick a time with the picker and get the suggested wake-up times from that point on.
 
-2. Start the app
+Each suggested time has a **+ button** to create an alarm directly with that exact hour.
 
-   ```bash
-   npx expo start
-   ```
+### Verified alarm
+- Pick an object around you (ideally, outside the bedroom) and save **up to 3 reference photos** from different angles.
+- When the alarm goes off, it keeps playing until you take a **new photo of that same object**.
+- The match is verified **entirely on-device** by an image-similarity algorithm (perceptual hash + color comparison). Wrong object, angle or lighting? It gives you another try.
+- While the alarm is ringing, a **Confirm now** button takes you straight to the camera so you can silence it as quickly as possible (the photo is still required).
 
-In the output, you'll find options to open the app in a
+## How it works
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Expo SDK 57** (React Native, expo-router)
+- Alarm sound handled with **expo-audio** (keeps playing in the background as long as the app isn't fully closed - iOS stops all audio if the app is force-quit, an Apple platform limitation)
+- **expo-notifications** scheduled for each alarm as a safety net
+- Reference photos are compared using pure JavaScript image hashing - no external server, everything stays local
+- Reference photo storage + match logic in `src/utils` and `src/engine`
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## License
 
-## Get a fresh project
+Released under the [MIT License](LICENSE).
 
-When you're ready, run:
+## A note on development
 
-```bash
-npm run reset-project
-```
+The idea is entirely mine, but the code was built through **vibecoding** - I don't master most of the technologies involved (nor even a large part of them). This project is a personal experiment in what's possible when you can guide an AI through an entire product, from idea to a working build.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Distribution
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Built for iOS. A GitHub Actions workflow (`.github/workflows/ipa.yml`) produces an unsigned IPA that can be installed via AltStore with a free Apple ID.
