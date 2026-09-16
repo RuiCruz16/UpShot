@@ -12,11 +12,19 @@ Calculates the best time to wake up based on 90-minute sleep cycles (with the 15
 
 Each suggested time has a **+ button** to create an alarm directly with that exact hour.
 
+<p align="center">
+  <img src="imgs/calculator.png" width="300">
+</p>
+
 ### Verified alarm
 - Pick an object around you (ideally, outside the bedroom) and save **up to 3 reference photos** from different angles.
 - When the alarm goes off, it keeps playing until you take a **new photo of that same object**.
 - The match is verified **entirely on-device** by an image-similarity algorithm (perceptual hash + color comparison). Wrong object, angle or lighting? It gives you another try.
 - While the alarm is ringing, a **Confirm now** button takes you straight to the camera so you can silence it as quickly as possible (the photo is still required).
+
+<p align="center">
+  <img src="imgs/alarm.png" width="300">
+</p>
 
 ## How it works
 
